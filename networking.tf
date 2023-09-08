@@ -16,6 +16,11 @@ resource "azurerm_route_table" "this" {
   tags                          = var.common_tags
 }
 
+data "azurerm_route_table" "default" {
+  name                = local.subscription_vnet_map[data.azurerm_subscription.current.subscription_id].default_route_table
+  resource_group_name = local.subscription_vnet_map[data.azurerm_subscription.current.subscription_id].vnet_resource_group
+}
+
 resource "azurerm_route" "this" {
   for_each               = { for route in local.flattened_routes : "${route.route_table_key}-${route.route_key}" => route }
   name                   = each.key
@@ -30,6 +35,12 @@ resource "azurerm_subnet_route_table_association" "this" {
   for_each       = { for route_table in local.flattened_subnet_route_associations : "${route_table.route_table_key}-${route_table.subnet}" => route_table }
   subnet_id      = azurerm_subnet.this[each.value.subnet].id
   route_table_id = azurerm_route_table.this[each.value.route_table_key].id
+}
+
+resource "azurerm_subnet_route_table_association" "default" {
+  for_each       = { for key, value in var.subnets : key => value if value.use_default_rt == true }
+  subnet_id      = azurerm_subnet.this[each.key].id
+  route_table_id = data.azurerm_route_table.default.id
 }
 
 resource "azurerm_network_security_group" "this" {
