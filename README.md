@@ -39,7 +39,7 @@ module "core-infra" {
 | [azurerm_network_security_rule.rules](https://registry.terraform.io/providers/hashicorp/azurerm/3.71.0/docs/resources/network_security_rule) | resource |
 | [azurerm_recovery_services_vault.this](https://registry.terraform.io/providers/hashicorp/azurerm/3.71.0/docs/resources/recovery_services_vault) | resource |
 | [azurerm_resource_group.rg](https://registry.terraform.io/providers/hashicorp/azurerm/3.71.0/docs/resources/resource_group) | resource |
-| [azurerm_route.example](https://registry.terraform.io/providers/hashicorp/azurerm/3.71.0/docs/resources/route) | resource |
+| [azurerm_route.this](https://registry.terraform.io/providers/hashicorp/azurerm/3.71.0/docs/resources/route) | resource |
 | [azurerm_route_table.this](https://registry.terraform.io/providers/hashicorp/azurerm/3.71.0/docs/resources/route_table) | resource |
 | [azurerm_storage_account.this](https://registry.terraform.io/providers/hashicorp/azurerm/3.71.0/docs/resources/storage_account) | resource |
 | [azurerm_storage_account_network_rules.this](https://registry.terraform.io/providers/hashicorp/azurerm/3.71.0/docs/resources/storage_account_network_rules) | resource |
