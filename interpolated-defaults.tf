@@ -40,4 +40,9 @@ locals {
       }
     ]
   ])
+  subnet_ids = flatten([
+    for subnet_key, subnet in var.subnets : [
+      azurerm_subnet.this[subnet_key].id
+    ]
+  ])
 }
