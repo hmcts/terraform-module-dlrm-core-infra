@@ -16,7 +16,7 @@ resource "azurerm_route_table" "this" {
   tags                          = var.common_tags
 }
 
-resource "azurerm_route" "example" {
+resource "azurerm_route" "this" {
   for_each               = { for route in local.flattened_routes : "${route.route_table_key}-${route.route_key}" => route }
   name                   = each.key
   resource_group_name    = local.subscription_vnet_map[data.azurerm_subscription.current.subscription_id].vnet_resource_group
