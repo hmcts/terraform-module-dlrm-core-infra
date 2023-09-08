@@ -45,21 +45,21 @@ resource "azurerm_network_security_rule" "rules" {
   network_security_group_name                = azurerm_network_security_group.this[each.value.nsg_key].name
   resource_group_name                        = local.subscription_vnet_map[data.azurerm_subscription.current.subscription_id].vnet_resource_group
   name                                       = each.key
-  priority                                   = each.value.priority
-  direction                                  = each.value.direction
-  access                                     = each.value.access
-  protocol                                   = each.value.protocol
-  source_port_range                          = each.value.source_port_range
-  source_port_ranges                         = each.value.source_port_ranges
-  destination_port_range                     = each.value.destination_port_range
-  destination_port_ranges                    = each.value.destination_port_ranges
-  source_address_prefix                      = each.value.source_address_prefix
-  source_address_prefixes                    = each.value.source_address_prefixes
-  source_application_security_group_ids      = each.value.source_application_security_group_ids
-  destination_address_prefix                 = each.value.destination_address_prefix
-  destination_address_prefixes               = each.value.destination_address_prefixes
-  destination_application_security_group_ids = each.value.destination_application_security_group_ids
-  description                                = each.value.description
+  priority                                   = each.value.rule.priority
+  direction                                  = each.value.rule.direction
+  access                                     = each.value.rule.access
+  protocol                                   = each.value.rule.protocol
+  source_port_range                          = each.value.rule.source_port_range
+  source_port_ranges                         = each.value.rule.source_port_ranges
+  destination_port_range                     = each.value.rule.destination_port_range
+  destination_port_ranges                    = each.value.rule.destination_port_ranges
+  source_address_prefix                      = each.value.rule.source_address_prefix
+  source_address_prefixes                    = each.value.rule.source_address_prefixes
+  source_application_security_group_ids      = each.value.rule.source_application_security_group_ids
+  destination_address_prefix                 = each.value.rule.destination_address_prefix
+  destination_address_prefixes               = each.value.rule.destination_address_prefixes
+  destination_application_security_group_ids = each.value.rule.destination_application_security_group_ids
+  description                                = each.value.rule.description
 }
 
 resource "azurerm_subnet_network_security_group_association" "this" {
