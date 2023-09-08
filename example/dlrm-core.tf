@@ -1,5 +1,5 @@
 module "core-infra" {
-  source = ".."
+  source = "./.."
   env    = "sbox"
   common_tags = {
     "product"   = "dlrm"
