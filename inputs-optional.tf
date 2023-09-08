@@ -89,7 +89,7 @@ variable "instant_restore_retention_days" {
 }
 
 variable "subnets" {
-  type        = map(object({ address_prefixes = list(string), service_endpoints = optional(list(string), []) }))
+  type        = map(object({ address_prefixes = list(string), service_endpoints = optional(list(string), []), use_default_rt = optional(bool, false) }))
   description = "Map of subnets to create."
   default     = {}
 }
