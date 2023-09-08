@@ -16,6 +16,16 @@ resource "azurerm_route_table" "this" {
   tags                          = var.common_tags
 }
 
+resource "azurerm_route" "this" {
+  for_each               = { for route in local.flattened_routes : "${route.route_table_key}-${route.route_key}" => route }
+  name                   = each.key
+  resource_group_name    = local.subscription_vnet_map[data.azurerm_subscription.current.subscription_id].vnet_resource_group
+  route_table_name       = azurerm_route_table.this[each.value.route_table_key].name
+  address_prefix         = each.value.route.address_prefix
+  next_hop_type          = each.value.route.next_hop_type
+  next_hop_in_ip_address = each.value.route.next_hop_in_ip_address
+}
+
 resource "azurerm_subnet_route_table_association" "this" {
   for_each       = var.route_tables
   subnet_id      = azurerm_subnet.this[each.value.subnet].id
@@ -31,8 +41,8 @@ resource "azurerm_network_security_group" "this" {
 }
 
 resource "azurerm_network_security_rule" "rules" {
-  for_each                                   = { for key, value in var.network_security_groups : key => value if length(value.rules) > 0 }
-  network_security_group_name                = azurerm_network_security_group.this[each.key].name
+  for_each                                   = { for rule in local.flattened_nsg_rules : "${rule.nsg_key}-${rule.rule_key}" => rule }
+  network_security_group_name                = azurerm_network_security_group.this[each.value.nsg_key].name
   resource_group_name                        = local.subscription_vnet_map[data.azurerm_subscription.current.subscription_id].vnet_resource_group
   name                                       = each.key
   priority                                   = each.value.priority

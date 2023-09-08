@@ -95,7 +95,16 @@ variable "subnets" {
 }
 
 variable "route_tables" {
-  type = map(object({ subnet = string, routes = list(object({ name = string, address_prefix = string, next_hop_type = string })) }))
+  type = map(object({
+    subnet = string,
+    routes = map(object({
+      address_prefix         = string,
+      next_hop_type          = string,
+      next_hop_in_ip_address = string
+    }))
+  }))
+  description = "Map of route tables to create."
+  default     = {}
 }
 
 variable "network_security_groups" {
@@ -119,4 +128,6 @@ variable "network_security_groups" {
       description                                = optional(string, null)
     }))
   }))
+  description = "Map of network security groups to create."
+  default     = {}
 }

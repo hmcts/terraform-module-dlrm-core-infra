@@ -1,5 +1,5 @@
 module "core-infra" {
-  source = "git::https://github.com/hmcts/terraform-module-dlrm-core-infra.git?ref=main"
+  source = "./.."
   env    = "sbox"
   common_tags = {
     "product"   = "dlrm"
