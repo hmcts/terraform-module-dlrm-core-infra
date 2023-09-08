@@ -1,17 +1,19 @@
-# terraform-module-template
+# terraform-module-dlrm-core-infra
 
-<!-- TODO fill in resource name in link to product documentation -->
-Terraform module for [Resource name](https://example.com).
+Terraform module to deploy "core" resource used by DLRM projects, these often include Key Vaults, RSV, Subnet(s), NSGs, Route Tables.
 
 ## Example
 
-<!-- todo update module name -->
 ```hcl
-module "todo_resource_name" {
-  source = "git@github.com:hmcts/terraform-module-todo?ref=main"
-  ...
+module "core-infra" {
+  source = "git::https://github.com/hmcts/terraform-module-dlrm-core-infra.git?ref=main"
+  env    = "sbox"
+  common_tags = {
+    "product"   = "dlrm"
+    "component" = "core"
+  }
+  project = "dlrm-project-a"
 }
-
 ```
 
 <!-- BEGIN_TF_DOCS -->
