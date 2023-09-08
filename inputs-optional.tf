@@ -87,3 +87,36 @@ variable "instant_restore_retention_days" {
   description = "The instance restore retention days."
   default     = 1
 }
+
+variable "subnets" {
+  type        = map(object({ address_prefixes = list(string), service_endpoints = optional(list(string), []) }))
+  description = "Map of subnets to create."
+  default     = {}
+}
+
+variable "route_tables" {
+  type = map(object({ subnet = string, routes = list(object({ name = string, address_prefix = string, next_hop_type = string })) }))
+}
+
+variable "network_security_groups" {
+  type = map(object({
+    subnet = optional(string, null)
+    rules = map(object({
+      priority                                   = number,
+      direction                                  = string,
+      access                                     = string,
+      protocol                                   = string,
+      source_port_range                          = optional(string, null)
+      source_port_ranges                         = optional(list(string), null)
+      destination_port_range                     = optional(string, null)
+      destination_port_ranges                    = optional(list(string), null)
+      source_address_prefix                      = optional(string, null)
+      source_address_prefixes                    = optional(list(string), null)
+      source_application_security_group_ids      = optional(list(string), null)
+      destination_address_prefix                 = optional(string, null)
+      destination_address_prefixes               = optional(list(string), null)
+      destination_application_security_group_ids = optional(list(string), null)
+      description                                = optional(string, null)
+    }))
+  }))
+}
