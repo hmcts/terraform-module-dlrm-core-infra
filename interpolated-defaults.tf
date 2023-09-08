@@ -22,4 +22,22 @@ locals {
       vnet_resource_group = "ExternalSpoke-rg"
     }
   }
+  flattened_routes = flatten([
+    for route_table_key, route_table in var.route_tables : [
+      for route_key, route in route_table.routes : {
+        route_table_key = route_table_key
+        route_key       = route_key
+        route           = route
+      }
+    ]
+  ])
+  flattened_nsg_rules = flatten([
+    for nsg_key, nsg in var.network_security_groups : [
+      for rule_key, rule in nsg.rules : {
+        nsg_key  = nsg_key
+        rule_key = rule_key
+        rule     = rule
+      }
+    ]
+  ])
 }
