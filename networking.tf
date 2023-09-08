@@ -5,6 +5,17 @@ resource "azurerm_subnet" "this" {
   virtual_network_name = local.subscription_vnet_map[data.azurerm_subscription.current.subscription_id].vnet_name
   address_prefixes     = each.value.address_prefixes
   service_endpoints    = each.value.service_endpoints
+
+  dynamic "delegation" {
+    for_each = var.subnets[each.key].delegations
+    content {
+      name = delegation.key
+      service_delegation {
+        name    = delegation.value.service_name
+        actions = delegation.value.actions
+      }
+    }
+  }
 }
 
 resource "azurerm_route_table" "this" {
@@ -74,9 +85,9 @@ resource "azurerm_network_security_rule" "rules" {
 }
 
 resource "azurerm_subnet_network_security_group_association" "this" {
-  for_each                  = { for key, value in var.network_security_groups : key => value if value.subnet != null }
+  for_each                  = { for nsg in local.flattened_subnet_nsg_associations : "${nsg.nsg_key}-${nsg.subnet}" => nsg }
   subnet_id                 = azurerm_subnet.this[each.value.subnet].id
-  network_security_group_id = azurerm_network_security_group.this[each.key].id
+  network_security_group_id = azurerm_network_security_group.this[each.value.nsg_key].id
 }
 
 resource "azurerm_storage_account_network_rules" "this" {

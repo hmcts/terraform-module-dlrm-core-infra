@@ -89,7 +89,15 @@ variable "instant_restore_retention_days" {
 }
 
 variable "subnets" {
-  type        = map(object({ address_prefixes = list(string), service_endpoints = optional(list(string), []), use_default_rt = optional(bool, false) }))
+  type = map(object({
+    address_prefixes  = list(string),
+    service_endpoints = optional(list(string), []),
+    use_default_rt    = optional(bool, false)
+    delegations = optional(map(object({
+      service_name = string,
+      actions      = optional(list(string), [])
+    })))
+  }))
   description = "Map of subnets to create."
   default     = {}
 }
@@ -109,7 +117,7 @@ variable "route_tables" {
 
 variable "network_security_groups" {
   type = map(object({
-    subnet = optional(string)
+    subnets = optional(list(string)),
     rules = map(object({
       priority                                   = number,
       direction                                  = string,
