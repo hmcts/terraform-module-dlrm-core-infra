@@ -31,6 +31,14 @@ locals {
       }
     ]
   ])
+  flattened_subnet_route_associations = flatten([
+    for route_table_key, route_table in var.route_tables : [
+      for subnet in route_table.subnets : {
+        route_table_key = route_table_key
+        subnet          = subnet
+      }
+    ]
+  ])
   flattened_nsg_rules = flatten([
     for nsg_key, nsg in var.network_security_groups : [
       for rule_key, rule in nsg.rules : {

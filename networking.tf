@@ -27,9 +27,9 @@ resource "azurerm_route" "this" {
 }
 
 resource "azurerm_subnet_route_table_association" "this" {
-  for_each       = var.route_tables
+  for_each       = { for route_table in local.flattened_subnet_route_associations : "${route_table.route_table_key}-${route_table.subnet}" => route_table }
   subnet_id      = azurerm_subnet.this[each.value.subnet].id
-  route_table_id = azurerm_route_table.this[each.key].id
+  route_table_id = azurerm_route_table.this[each.value.route_table_key].id
 }
 
 resource "azurerm_network_security_group" "this" {
