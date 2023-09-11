@@ -34,6 +34,9 @@ resource "azurerm_key_vault" "this" {
         "List",
         "Set",
         "Delete",
+        "Purge",
+        "Recover",
+        "Restore",
         "Purge"
       ]
     },
