@@ -22,7 +22,10 @@ resource "azurerm_key_vault" "this" {
         "Update",
         "Create",
         "Delete",
-        "GetRotationPolicy"
+        "GetRotationPolicy",
+        "Recover",
+        "Restore",
+        "Purge"
       ]
       storage_permissions = []
 
