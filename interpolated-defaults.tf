@@ -5,6 +5,11 @@ locals {
   name    = var.name != "" ? var.name : var.project
   is_prod = length(regexall(".*(prod).*", var.env)) > 0
   subscription_vnet_map = {
+    "d24c931e-2e6d-4508-8583-85ac42715580" = {
+      vnet_name           = "vnet-dev-int-01"
+      vnet_resource_group = "InternalSpoke-rg"
+      default_route_table = "DEV-INTERNAL-RT"
+    }
     "ae75b9fb-7d34-4112-82ff-64bd3855ce27" = {
       vnet_name           = "vnet-nle-int-01"
       vnet_resource_group = "InternalSpoke-rg"
