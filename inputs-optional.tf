@@ -117,7 +117,8 @@ variable "route_tables" {
 
 variable "network_security_groups" {
   type = map(object({
-    subnets = optional(list(string)),
+    subnets      = optional(list(string)),
+    deny_inbound = optional(bool, true),
     rules = map(object({
       priority                                   = number,
       direction                                  = string,
