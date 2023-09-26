@@ -37,7 +37,7 @@ variable "backup_policy_time" {
 variable "backup_retention_daily_count" {
   type        = number
   description = "The Daily Retention Count."
-  default     = 10
+  default     = null
 }
 
 variable "backup_retention_monthly_count" {
