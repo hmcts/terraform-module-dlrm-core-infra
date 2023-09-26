@@ -2,8 +2,9 @@ data "azurerm_subscription" "current" {
 }
 
 locals {
-  name    = var.name != "" ? var.name : var.project
-  is_prod = length(regexall(".*(prod).*", var.env)) > 0
+  name                   = var.name != "" ? var.name : var.project
+  is_prod                = length(regexall(".*(prod).*", var.env)) > 0
+  backup_retention_daily = var.backup_retention_daily_count != null ? var.backup_retention_daily_count : local.is_prod ? 28 : 7
   subscription_vnet_map = {
     "ae75b9fb-7d34-4112-82ff-64bd3855ce27" = {
       vnet_name           = "vnet-nle-int-01"

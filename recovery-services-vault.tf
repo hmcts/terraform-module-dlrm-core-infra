@@ -23,7 +23,7 @@ resource "azurerm_backup_policy_vm" "this" {
   }
 
   retention_daily {
-    count = var.backup_retention_daily_count
+    count = local.backup_retention_daily
   }
 
   retention_monthly {
