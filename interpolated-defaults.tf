@@ -27,6 +27,7 @@ locals {
       default_route_table = "PROD-EXTERNAL-RT"
     }
   }
+  prefixed_subnets = { for key, value in var.subnets : "${local.subscription_vnet_map[data.azurerm_subscription.current.subscription_id].vnet_name}-${key}" => value }
   subnet_ids = flatten([
     for subnet_id in module.networking.subnet_ids : [
       subnet_id

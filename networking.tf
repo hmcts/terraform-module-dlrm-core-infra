@@ -10,7 +10,7 @@ module "networking" {
   vnets = {
     "${local.subscription_vnet_map[data.azurerm_subscription.current.subscription_id].vnet_name}" = {
       existing = true
-      subnets  = var.subnets
+      subnets  = local.prefixed_subnets
     }
   }
 
