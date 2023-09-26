@@ -27,7 +27,22 @@ locals {
       default_route_table = "PROD-EXTERNAL-RT"
     }
   }
-  prefixed_subnets = { for key, value in var.subnets : "${local.subscription_vnet_map[data.azurerm_subscription.current.subscription_id].vnet_name}-${key}" => value }
+  prefixed_subnets = {
+    for key, value in var.subnets : "${local.subscription_vnet_map[data.azurerm_subscription.current.subscription_id].vnet_name}-${key}" => value
+  }
+  route_tables = {
+    for key, value in var.route_tables : key => {
+      routes  = value.routes
+      subnets = [for subnet in value.subnets : "${local.subscription_vnet_map[data.azurerm_subscription.current.subscription_id].vnet_name}-${subnet}"]
+    }
+  }
+  network_security_groups = {
+    for key, value in var.network_security_groups : key => {
+      subnets      = [for subnet in value.subnets : "${local.subscription_vnet_map[data.azurerm_subscription.current.subscription_id].vnet_name}-${subnet}"]
+      deny_inbound = value.deny_inbound
+      rules        = value.rules
+    }
+  }
   subnet_ids = flatten([
     for subnet_id in module.networking.subnet_ids : [
       subnet_id

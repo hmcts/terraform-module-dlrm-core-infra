@@ -14,8 +14,8 @@ module "networking" {
     }
   }
 
-  route_tables            = var.route_tables
-  network_security_groups = var.network_security_groups
+  route_tables            = local.route_tables
+  network_security_groups = local.network_security_groups
 }
 
 resource "azurerm_storage_account_network_rules" "this" {
