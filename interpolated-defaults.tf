@@ -6,6 +6,11 @@ locals {
   is_prod                = length(regexall(".*(prod).*", var.env)) > 0
   backup_retention_daily = var.backup_retention_daily_count != null ? var.backup_retention_daily_count : local.is_prod ? 28 : 7
   subscription_vnet_map = {
+    "d24c931e-2e6d-4508-8583-85ac42715580" = {
+      vnet_name           = "vnet-dev-int-01"
+      vnet_resource_group = "InternalSpoke-rg"
+      default_route_table = "DEV-INTERNAL-RT"
+    }
     "ae75b9fb-7d34-4112-82ff-64bd3855ce27" = {
       vnet_name           = "vnet-nle-int-01"
       vnet_resource_group = "InternalSpoke-rg"
