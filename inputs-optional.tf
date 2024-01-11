@@ -141,7 +141,7 @@ variable "network_security_groups" {
   default     = {}
 }
 
-variable "log_analytics_workspaces" {
+variable "log_analytics_workspace" {
   type = object({
     daily_quota_gb    = optional(number, 10)
     retention_in_days = optional(number, 30)
