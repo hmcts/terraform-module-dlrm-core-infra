@@ -53,4 +53,67 @@ locals {
       subnet_id
     ]
   ])
+
+  key_vault_access_policies = merge(local.default_key_vault_access_policies, var.additional_key_vault_policies)
+  default_key_vault_access_policies = {
+    "${data.azurerm_client_config.current.object_id}" = {
+      certificate_permissions = []
+      key_permissions = [
+        "Get",
+        "List",
+        "Update",
+        "Create",
+        "Delete",
+        "GetRotationPolicy",
+        "Recover",
+        "Restore",
+        "Purge"
+      ]
+      storage_permissions = []
+      secret_permissions = [
+        "Get",
+        "List",
+        "Set",
+        "Delete",
+        "Purge",
+        "Recover",
+        "Restore",
+        "Purge"
+      ]
+    }
+    // Allow DTS Platform Operations
+    "e7ea2042-4ced-45dd-8ae3-e051c6551789" = {
+      certificate_permissions = []
+      key_permissions = [
+        "Get",
+        "List",
+        "Update",
+        "Create",
+        "Delete"
+      ]
+      storage_permissions = []
+      secret_permissions = [
+        "Get",
+        "List",
+        "Set",
+        "Delete",
+        "Purge"
+      ]
+    }
+    // Allow Backup management
+    "de5896d6-6cef-413a-833b-358762739960" = {
+      certificate_permissions = []
+      key_permissions = [
+        "Get",
+        "List",
+        "Backup"
+      ]
+      storage_permissions = []
+      secret_permissions = [
+        "Get",
+        "List",
+        "Backup"
+      ]
+    }
+  }
 }

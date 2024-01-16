@@ -149,3 +149,14 @@ variable "log_analytics_workspace" {
   description = "Configuration values for log analytics workspace. If not set, no workspace will be created."
   default     = null
 }
+
+variable "additional_key_vault_policies" {
+  type = map(object({
+    certificate_permissions = optional(list(string), [])
+    key_permissions         = optional(list(string), [])
+    storage_permissions     = optional(list(string), [])
+    secret_permissions      = optional(list(string), [])
+  }))
+  description = "Map of additional key vault access policies to create."
+  default     = {}
+}
