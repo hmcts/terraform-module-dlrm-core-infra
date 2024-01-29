@@ -12,7 +12,7 @@ resource "azurerm_storage_account_network_rules" "this" {
   storage_account_id = azurerm_storage_account.this.id
 
   default_action             = "Deny"
-  virtual_network_subnet_ids = local.subnet_ids
+  virtual_network_subnet_ids = concat(local.subnet_ids, data.azurerm_subnet.ssptl-00.id, data.azurerm_subnet.ssptl-01.id)
   bypass                     = ["AzureServices"]
 
   lifecycle {

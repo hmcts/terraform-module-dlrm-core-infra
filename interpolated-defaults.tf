@@ -2,9 +2,11 @@ data "azurerm_subscription" "current" {
 }
 
 locals {
-  name                   = var.name != "" ? var.name : var.project
-  is_prod                = length(regexall(".*(prod).*", var.env)) > 0
-  backup_retention_daily = var.backup_retention_daily_count != null ? var.backup_retention_daily_count : local.is_prod ? 28 : 7
+  name                      = var.name != "" ? var.name : var.project
+  is_prod                   = length(regexall(".*(prod).*", var.env)) > 0
+  backup_retention_daily    = var.backup_retention_daily_count != null ? var.backup_retention_daily_count : local.is_prod ? 28 : 7
+  ssptl_vnet_name           = "ss-ptl-vnet"
+  ssptl_vnet_resource_group = "ss-ptl-network-rg"
   subscription_vnet_map = {
     "d24c931e-2e6d-4508-8583-85ac42715580" = {
       vnet_name           = "vnet-dev-int-01"
@@ -116,4 +118,18 @@ locals {
       ]
     }
   }
+}
+
+data "azurerm_subnet" "ssptl-00" {
+  provider             = azurerm.ssptl
+  name                 = "aks-00"
+  virtual_network_name = local.ssptl_vnet_name
+  resource_group_name  = local.ssptl_vnet_resource_group
+}
+
+data "azurerm_subnet" "ssptl-01" {
+  provider             = azurerm.ssptl
+  name                 = "aks-01"
+  virtual_network_name = local.ssptl_vnet_name
+  resource_group_name  = local.ssptl_vnet_resource_group
 }
