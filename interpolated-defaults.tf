@@ -2,11 +2,9 @@ data "azurerm_subscription" "current" {
 }
 
 locals {
-  name                      = var.name != "" ? var.name : var.project
-  is_prod                   = length(regexall(".*(prod).*", var.env)) > 0
-  backup_retention_daily    = var.backup_retention_daily_count != null ? var.backup_retention_daily_count : local.is_prod ? 28 : 7
-  ssptl_vnet_name           = "ss-ptl-vnet"
-  ssptl_vnet_resource_group = "ss-ptl-network-rg"
+  name                   = var.name != "" ? var.name : var.project
+  is_prod                = length(regexall(".*(prod).*", var.env)) > 0
+  backup_retention_daily = var.backup_retention_daily_count != null ? var.backup_retention_daily_count : local.is_prod ? 28 : 7
   subscription_vnet_map = {
     "d24c931e-2e6d-4508-8583-85ac42715580" = {
       vnet_name           = "vnet-dev-int-01"
@@ -55,6 +53,11 @@ locals {
       subnet_id
     ]
   ])
+
+  ssptl_subnet_ids = [
+    "/subscriptions/6c4d2513-a873-41b4-afdd-b05a33206631/resourceGroups/ss-ptl-network-rg/providers/Microsoft.Network/virtualNetworks/ss-ptl-vnet/subnets/aks-00",
+    "/subscriptions/6c4d2513-a873-41b4-afdd-b05a33206631/resourceGroups/ss-ptl-network-rg/providers/Microsoft.Network/virtualNetworks/ss-ptl-vnet/subnets/aks-01"
+  ]
 
   key_vault_access_policies = merge(local.default_key_vault_access_policies, var.additional_key_vault_policies)
   default_key_vault_access_policies = {
@@ -118,18 +121,4 @@ locals {
       ]
     }
   }
-}
-
-data "azurerm_subnet" "ssptl-00" {
-  provider             = azurerm.ssptl
-  name                 = "aks-00"
-  virtual_network_name = local.ssptl_vnet_name
-  resource_group_name  = local.ssptl_vnet_resource_group
-}
-
-data "azurerm_subnet" "ssptl-01" {
-  provider             = azurerm.ssptl
-  name                 = "aks-01"
-  virtual_network_name = local.ssptl_vnet_name
-  resource_group_name  = local.ssptl_vnet_resource_group
 }
