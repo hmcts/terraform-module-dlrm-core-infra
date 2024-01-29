@@ -5,6 +5,10 @@ resource "azurerm_storage_account" "this" {
   account_tier             = "Standard"
   account_replication_type = "LRS"
 
+  azure_files_authentication {
+    directory_type = "AADDS"
+  }
+
   tags = var.common_tags
 }
 
