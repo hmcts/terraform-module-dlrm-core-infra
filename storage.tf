@@ -7,3 +7,17 @@ resource "azurerm_storage_account" "this" {
 
   tags = var.common_tags
 }
+
+resource "azurerm_storage_account_network_rules" "this" {
+  storage_account_id = azurerm_storage_account.this.id
+
+  default_action             = "Deny"
+  virtual_network_subnet_ids = local.subnet_ids
+  bypass                     = ["AzureServices"]
+
+  lifecycle {
+    ignore_changes = [
+      private_link_access
+    ]
+  }
+}
