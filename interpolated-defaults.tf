@@ -62,28 +62,13 @@ locals {
   key_vault_access_policies = merge(local.default_key_vault_access_policies, var.additional_key_vault_policies)
   default_key_vault_access_policies = {
     "${data.azurerm_client_config.current.object_id}" = {
-      certificate_permissions = []
+      certificate_permissions = ["*"]
       key_permissions = [
-        "Get",
-        "List",
-        "Update",
-        "Create",
-        "Delete",
-        "GetRotationPolicy",
-        "Recover",
-        "Restore",
-        "Purge"
+        "*"
       ]
       storage_permissions = []
       secret_permissions = [
-        "Get",
-        "List",
-        "Set",
-        "Delete",
-        "Purge",
-        "Recover",
-        "Restore",
-        "Purge"
+        "*"
       ]
     }
     // Allow DTS Platform Operations
