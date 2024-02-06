@@ -160,3 +160,9 @@ variable "additional_key_vault_policies" {
   description = "Map of additional key vault access policies to create."
   default     = {}
 }
+
+variable "storage_account_firewall_subnet_ids" {
+  type        = list(string)
+  description = "List of subnet IDs to allow storage account access from."
+  default     = []
+}

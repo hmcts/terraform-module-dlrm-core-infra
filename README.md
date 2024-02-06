@@ -76,6 +76,7 @@ module "core-infra" {
 | <a name="input_project"></a> [project](#input\_project) | The name of the DLRM project, this will feature in resource names. | `string` | n/a | yes |
 | <a name="input_recovery_services_sku"></a> [recovery\_services\_sku](#input\_recovery\_services\_sku) | The SKU of the Recovery Services Vault. | `string` | `"Standard"` | no |
 | <a name="input_route_tables"></a> [route\_tables](#input\_route\_tables) | Map of route tables to create. | <pre>map(object({<br>    subnets = list(string),<br>    routes = map(object({<br>      address_prefix         = string,<br>      next_hop_type          = string,<br>      next_hop_in_ip_address = optional(string)<br>    }))<br>  }))</pre> | `{}` | no |
+| <a name="input_storage_account_firewall_subnet_ids"></a> [storage\_account\_firewall\_subnet\_ids](#input\_storage\_account\_firewall\_subnet\_ids) | List of subnet IDs to allow storage account access from. | `list(string)` | `[]` | no |
 | <a name="input_subnets"></a> [subnets](#input\_subnets) | Map of subnets to create. | <pre>map(object({<br>    address_prefixes  = list(string),<br>    service_endpoints = optional(list(string), []),<br>    use_default_rt    = optional(bool, false)<br>    delegations = optional(map(object({<br>      service_name = string,<br>      actions      = optional(list(string), [])<br>    })))<br>  }))</pre> | `{}` | no |
 
 ## Outputs
@@ -85,6 +86,7 @@ module "core-infra" {
 | <a name="output_resource_group_location"></a> [resource\_group\_location](#output\_resource\_group\_location) | n/a |
 | <a name="output_resource_group_name"></a> [resource\_group\_name](#output\_resource\_group\_name) | n/a |
 | <a name="output_storage_account_id"></a> [storage\_account\_id](#output\_storage\_account\_id) | n/a |
+| <a name="output_storage_account_key"></a> [storage\_account\_key](#output\_storage\_account\_key) | n/a |
 | <a name="output_storage_account_name"></a> [storage\_account\_name](#output\_storage\_account\_name) | n/a |
 <!-- END_TF_DOCS -->
 
