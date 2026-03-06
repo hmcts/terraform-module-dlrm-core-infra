@@ -16,8 +16,9 @@ module "networking" {
     }
     } : {
     "${local.vnet_config.vnet_name}" = {
-      existing = true
-      subnets  = var.subnets
+      existing      = true
+      address_space = null
+      subnets       = var.subnets
     }
   }
 
