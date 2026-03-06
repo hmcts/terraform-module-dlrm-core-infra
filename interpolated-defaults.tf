@@ -32,18 +32,32 @@ locals {
       default_route_table = "PROD-EXTERNAL-RT"
     }
   }
+  existing_vnet_config = try(local.subscription_vnet_map[data.azurerm_subscription.current.subscription_id], {
+    vnet_name           = ""
+    vnet_resource_group = ""
+    default_route_table = ""
+  })
+
+  create_vnet   = var.new_vnet != null
+  new_vnet_name = local.create_vnet ? coalesce(var.new_vnet.name, "${local.name}-vnet") : local.existing_vnet_config.vnet_name
+  vnet_config = local.create_vnet ? {
+    vnet_name           = local.new_vnet_name
+    vnet_resource_group = null
+    default_route_table = null
+  } : local.existing_vnet_config
+
   prefixed_subnets = {
-    for key, value in var.subnets : "${local.subscription_vnet_map[data.azurerm_subscription.current.subscription_id].vnet_name}-${key}" => value
+    for key, value in var.subnets : "${local.vnet_config.vnet_name}-${key}" => value
   }
   route_tables = {
     for key, value in var.route_tables : key => {
       routes  = value.routes
-      subnets = [for subnet in value.subnets : "${local.subscription_vnet_map[data.azurerm_subscription.current.subscription_id].vnet_name}-${subnet}"]
+      subnets = [for subnet in value.subnets : "${local.vnet_config.vnet_name}-${subnet}"]
     }
   }
   network_security_groups = {
     for key, value in var.network_security_groups : key => {
-      subnets      = [for subnet in value.subnets : "${local.subscription_vnet_map[data.azurerm_subscription.current.subscription_id].vnet_name}-${subnet}"]
+      subnets      = [for subnet in value.subnets : "${local.vnet_config.vnet_name}-${subnet}"]
       deny_inbound = value.deny_inbound
       rules        = value.rules
     }

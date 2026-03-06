@@ -6,10 +6,16 @@ module "networking" {
   common_tags                  = var.common_tags
   component                    = "networking"
   name                         = local.name
-  existing_resource_group_name = local.subscription_vnet_map[data.azurerm_subscription.current.subscription_id].vnet_resource_group
+  existing_resource_group_name = local.create_vnet ? azurerm_resource_group.rg.name : local.vnet_config.vnet_resource_group
 
-  vnets = {
-    "${local.subscription_vnet_map[data.azurerm_subscription.current.subscription_id].vnet_name}" = {
+  vnets = local.create_vnet ? {
+    "${local.new_vnet_name}" = {
+      existing      = false
+      address_space = var.new_vnet.address_space
+      subnets       = var.subnets
+    }
+    } : {
+    "${local.vnet_config.vnet_name}" = {
       existing = true
       subnets  = var.subnets
     }
