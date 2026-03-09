@@ -31,9 +31,8 @@ module "vnet_peer_hub" {
   source = "github.com/hmcts/terraform-module-vnet-peering"
   peerings = {
     source = {
-      name           = "${local.name}-vnet-to-hub"
-      vnet           = module.networking.vnet_names[local.new_vnet_name]
-      resource_group = module.networking.resource_group_name
+      name    = "${local.name}-vnet-to-hub"
+      vnet_id = "/subscriptions/${data.azurerm_subscription.current.subscription_id}/resourceGroups/${module.networking.resource_group_name}/providers/Microsoft.Network/virtualNetworks/${module.networking.vnet_names[local.new_vnet_name]}"
     }
     target = {
       name           = "${local.name}-hub-to-vnet"
