@@ -37,8 +37,8 @@ module "vnet_peer_hub" {
     }
     target = {
       name           = "${local.name}-hub-to-vnet"
-      vnet           = var.hub_vnet_name
-      resource_group = var.hub_vnet_resource_group
+      vnet           = var.new_vnet.hub_vnet_name
+      resource_group = var.new_vnet.hub_vnet_resource_group
     }
   }
 
