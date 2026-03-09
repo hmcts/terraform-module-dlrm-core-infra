@@ -169,8 +169,10 @@ variable "storage_account_firewall_subnet_ids" {
 
 variable "new_vnet" {
   type = object({
-    name          = optional(string)
-    address_space = list(string)
+    name                    = optional(string)
+    address_space           = list(string)
+    hub_vnet_name           = optional(string)
+    hub_vnet_resource_group = optional(string)
   })
   description = "When set, a new VNet is created with the given address_space. An optional name can be provided; if omitted it defaults to '<name>-vnet'. When null (default) the module deploys subnets into the subscription's designated existing VNet resolved from the subscription ID."
   default     = null

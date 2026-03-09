@@ -25,3 +25,25 @@ module "networking" {
   route_tables            = local.route_tables
   network_security_groups = local.network_security_groups
 }
+
+module "vnet_peer_hub" {
+  count  = local.create_vnet ? 1 : 0
+  source = "github.com/hmcts/terraform-module-vnet-peering"
+  peerings = {
+    source = {
+      name           = "${local.name}-vnet-to-hub"
+      vnet           = module.networking.vnet_names[local.new_vnet_name]
+      resource_group = module.networking.resource_group_name
+    }
+    target = {
+      name           = "${local.name}-hub-to-vnet"
+      vnet           = var.hub_vnet_name
+      resource_group = var.hub_vnet_resource_group
+    }
+  }
+
+  providers = {
+    azurerm.initiator = azurerm
+    azurerm.target    = azurerm.hub
+  }
+}
