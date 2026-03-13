@@ -90,6 +90,7 @@ module "core-infra" {
 | <a name="output_storage_account_id"></a> [storage\_account\_id](#output\_storage\_account\_id) | n/a |
 | <a name="output_storage_account_key"></a> [storage\_account\_key](#output\_storage\_account\_key) | n/a |
 | <a name="output_storage_account_name"></a> [storage\_account\_name](#output\_storage\_account\_name) | n/a |
+| <a name="output_subnet_ids"></a> [subnet\_ids](#output\_subnet\_ids) | Map of subnet name to subnet ID. |
 <!-- END_TF_DOCS -->
 
 ## Contributing
