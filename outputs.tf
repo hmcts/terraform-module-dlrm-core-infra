@@ -17,3 +17,11 @@ output "storage_account_id" {
 output "storage_account_key" {
   value = azurerm_storage_account.this.primary_access_key
 }
+
+output "subnet_ids" {
+  value = { for key, id in module.networking.subnet_ids :
+    replace(key, "${local.new_vnet_name}-", "") => id
+  }
+  description = "Map of subnet name to subnet ID."
+}
+
