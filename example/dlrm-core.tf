@@ -6,4 +6,9 @@ module "core-infra" {
     "component" = "core"
   }
   project = "dlrm-project-a"
+
+  providers = {
+    azurerm     = azurerm
+    azurerm.hub = azurerm.hub
+  }
 }
