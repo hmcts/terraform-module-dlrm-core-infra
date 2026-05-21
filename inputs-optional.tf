@@ -173,6 +173,7 @@ variable "new_vnet" {
     address_space           = list(string)
     hub_vnet_name           = string
     hub_vnet_resource_group = string
+    aadds_dns               = optional(bool, false)
   })
   description = "When set, a new VNet is created with the given address_space. An optional name can be provided; if omitted it defaults to '<name>-vnet'. When null (default) the module deploys subnets into the subscription's designated existing VNet resolved from the subscription ID."
   default     = null

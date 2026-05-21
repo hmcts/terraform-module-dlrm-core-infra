@@ -13,12 +13,14 @@ module "networking" {
       existing      = false
       address_space = var.new_vnet.address_space
       subnets       = var.subnets
+      dns_servers   = var.new_vnet.aadds_dns ? ["10.128.0.4", "10.128.0.5"] : null
     }
     } : {
     "${local.vnet_config.vnet_name}" = {
       existing      = true
       address_space = null
       subnets       = var.subnets
+      dns_servers   = null
     }
   }
 
